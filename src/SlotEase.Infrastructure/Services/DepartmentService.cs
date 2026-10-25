@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SlotEase.Application.DTOs.Departments;
+using SlotEase.Application.Exceptions;
 using SlotEase.Application.Interfaces;
 using SlotEase.Domain.Entities;
 using SlotEase.Infrastructure.Persistence;
@@ -26,7 +27,15 @@ public class DepartmentService : IDepartmentService
 
     public async Task<DepartmentDto> CreateAsync(CreateDepartmentDto dto)
     {
-        var department = new Department { Name = dto.Name.Trim() };
+        var name = dto.Name.Trim();
+
+        var exists = await _db.Departments.AnyAsync(d => d.Name == name);
+        if (exists)
+        {
+            throw new ConflictException($"Department '{name}' already exists.");
+        }
+
+        var department = new Department { Name = name };
 
         _db.Departments.Add(department);
         await _db.SaveChangesAsync();

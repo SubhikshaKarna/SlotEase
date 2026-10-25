@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SlotEase.Application.DTOs.Departments;
+using SlotEase.Application.Exceptions;
 using SlotEase.Application.Interfaces;
 
 namespace SlotEase.Api.Controllers;
@@ -25,7 +26,14 @@ public class DepartmentsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<DepartmentDto>> Create(CreateDepartmentDto dto)
     {
-        var created = await _departmentService.CreateAsync(dto);
-        return Created($"/api/departments/{created.Id}", created);
+        try
+        {
+            var created = await _departmentService.CreateAsync(dto);
+            return Created($"/api/departments/{created.Id}", created);
+        }
+        catch (ConflictException ex)
+        {
+            return Conflict(new { message = ex.Message });
+        }
     }
 }
