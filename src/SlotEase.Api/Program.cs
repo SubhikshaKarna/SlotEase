@@ -13,6 +13,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 builder.Services.AddScoped<IDoctorService, DoctorService>();
 builder.Services.AddSingleton<IPasswordHasher, PasswordHasherService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
