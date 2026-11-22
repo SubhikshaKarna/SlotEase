@@ -12,6 +12,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 builder.Services.AddScoped<IDoctorService, DoctorService>();
+builder.Services.AddSingleton<IPasswordHasher, PasswordHasherService>();
 
 
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
