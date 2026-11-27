@@ -21,5 +21,12 @@ namespace SlotEase.Api.Controllers
             var user=await _authService.RegisterAsync(dto);
             return Created($"/api/users/{user.Id}", user);
         }
+
+        [HttpPost("login")]
+        public async Task<ActionResult<AuthResponseDto>> Login(LoginDto dto)
+        {
+            var result = await _authService.LoginAsync(dto);
+            return Ok(result);
+        }
     }
 }

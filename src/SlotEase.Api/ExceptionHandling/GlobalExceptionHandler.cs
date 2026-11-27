@@ -21,6 +21,7 @@ public class GlobalExceptionHandler : IExceptionHandler
         var (statusCode, title) = exception switch
         {
             ConflictException => (StatusCodes.Status409Conflict, "Conflict"),
+            UnauthorizedException => (StatusCodes.Status401Unauthorized, "Unauthorized"),
             _ => (StatusCodes.Status500InternalServerError, "An unexpected error occurred.")
         };
 
